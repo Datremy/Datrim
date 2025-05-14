@@ -1,41 +1,55 @@
 body {
-    background: url('https://example.com/your-background.png') no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    text-align: center;
-    color: white;
+  margin: 0;
+  padding: 0;
+  background: url('background.png') no-repeat center top;
+  background-size: 100% auto;
+  min-height: 2868px; /* Высота фона */
+  font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+  text-align: center;
+  padding-top: 100px;
+}
+
+h1 {
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
 .roulette-container {
-    width: 100%;
-    overflow: hidden;
-    margin: 20px auto;
-    position: relative;
+  height: 800px; /* Высота области прокрутки */
+  margin: 40px auto;
+  position: relative;
+  overflow: hidden;
 }
 
 .roulette-track {
-    display: flex;
-    transition: transform 3s cubic-bezier(0.25, 1, 0.5, 1);
+  display: flex;
+  flex-direction: column;
+  transition: transform 4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gift {
-    min-width: 150px;
-    height: 150px;
-    margin: 0 10px;
-    background-size: contain;
-    background-repeat: no-repeat;
-    background-position: center;
+  width: 300px;
+  height: 300px;
+  margin: 20px auto;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
 }
 
 #spin-btn {
-    background: #FF6B00;
-    color: white;
-    border: none;
-    padding: 12px 30px;
-    font-size: 18px;
-    border-radius: 30px;
-    cursor: pointer;
-    margin-top: 20px;
+  background: linear-gradient(135deg, #FF6B00, #FF9500);
+  color: white;
+  border: none;
+  padding: 18px 40px;
+  font-size: 22px;
+  border-radius: 30px;
+  cursor: pointer;
+  margin-top: 40px;
+  box-shadow: 0 4px 12px rgba(255,107,0,0.4);
 }
