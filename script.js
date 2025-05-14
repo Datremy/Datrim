@@ -1,35 +1,33 @@
 const gifts = [
-  { name: "10 звёзд", image: "gift1.png" },
-  { name: "VIP-статус", image: "gift2.png" },
-  { name: "Стикерпак", image: "gift3.png" },
-  { name: "50 звёзд", image: "gift4.png" },
-  { name: "Бонус 100₽", image: "gift5.png" }
+    { name: "10 звёзд", image: "gift1.png" },
+    { name: "VIP-статус", image: "gift2.png" },
+    { name: "Стикерпак", image: "gift3.png" }
 ];
 
-const roulette = document.getElementById('roulette');
+const giftDisplay = document.getElementById('gift-display');
 const spinBtn = document.getElementById('spin-btn');
+let currentIndex = 0;
 
-// Загружаем подарки вертикально
-gifts.forEach(gift => {
-  const giftElement = document.createElement('div');
-  giftElement.className = 'gift';
-  giftElement.style.backgroundImage = `url(${gift.image})`;
-  roulette.appendChild(giftElement);
-});
+// Показываем первый подарк
+giftDisplay.style.backgroundImage = `url(${gifts[0].image})`;
 
 spinBtn.addEventListener('click', () => {
-  const giftHeight = 340; // 300px + margin
-  const randomOffset = Math.floor(Math.random() * 1000) + (gifts.length * giftHeight);
-  
-  roulette.style.transform = `translateY(-${randomOffset}px)`;
-  
-  setTimeout(() => {
-    const winnerIndex = Math.floor((randomOffset % (gifts.length * giftHeight)) / giftHeight);
-    if (window.Telegram && Telegram.WebApp) {
-      Telegram.WebApp.sendData(JSON.stringify({
-        prize: gifts[winnerIndex].name,
-        image: gifts[winnerIndex].image
-      }));
-    }
-  }, 4000);
+    // Анимация исчезновения
+    giftDisplay.style.opacity = '0';
+    
+    setTimeout(() => {
+        // Выбираем случайный подарок
+        currentIndex = Math.floor(Math.random() * gifts.length);
+        giftDisplay.style.backgroundImage = `url(${gifts[currentIndex].image})`;
+        
+        // Анимация появления
+        giftDisplay.style.opacity = '1';
+        
+        // Отправляем результат в Telegram
+        if (window.Telegram && Telegram.WebApp) {
+            Telegram.WebApp.sendData(JSON.stringify({
+                prize: gifts[currentIndex].name
+            }));
+        }
+    }, 500);
 });
