@@ -1,26 +1,31 @@
-const wheel = document.getElementById('wheel');
+const gifts = [
+    { name: "10 звёзд", image: "gift1.png" },
+    { name: "VIP-статус", image: "gift2.png" },
+    { name: "Стикерпак", image: "gift3.png" },
+    { name: "50 звёзд", image: "gift4.png" }
+];
+
+const roulette = document.getElementById('roulette');
 const spinBtn = document.getElementById('spin-btn');
-let isSpinning = false;
+
+// Загружаем подарки в ленту
+gifts.forEach(gift => {
+    const giftElement = document.createElement('div');
+    giftElement.className = 'gift';
+    giftElement.style.backgroundImage = `url(${gift.image})`;
+    roulette.appendChild(giftElement);
+});
 
 spinBtn.addEventListener('click', () => {
-    if (isSpinning) return;
-    isSpinning = true;
+    const randomOffset = Math.floor(Math.random() * 1000) + 2000;
+    roulette.style.transform = `translateX(-${randomOffset}px)`;
     
-    // Угол вращения (5-10 полных оборотов + случайный приз)
-    const spinDegrees = 1800 + Math.floor(Math.random() * 1800);
-    
-    // Вращаем рулетку
-    wheel.style.transform = `rotate(${spinDegrees}deg)`;
-    
-    // После завершения анимации
     setTimeout(() => {
-        isSpinning = false;
-        
-        // Отправляем результат в Telegram
+        const winnerIndex = Math.floor((randomOffset % (gifts.length * 160)) / 160);
         if (window.Telegram && Telegram.WebApp) {
-            const prizes = ["10 звёзд", "5 звёзд", "20 звёзд", "Бесплатная подписка"];
-            const randomPrize = prizes[Math.floor(Math.random() * prizes.length)];
-            Telegram.WebApp.sendData(JSON.stringify({ prize: randomPrize }));
+            Telegram.WebApp.sendData(JSON.stringify({
+                prize: gifts[winnerIndex].name
+            }));
         }
     }, 3000);
 });
